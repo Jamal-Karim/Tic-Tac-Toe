@@ -1,0 +1,76 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+}
+
+h1 {
+    font-family: 'Roboto', sans-serif;
+    margin-top: -5rem;
+    margin-bottom: 5rem;
+}
+
+.zero {
+    height: 100px;
+    width: 100px;
+    border-right: 5px solid black;
+    border-bottom: 5px solid black;
+}
+
+.one {
+    height: 100px;
+    width: 100px;
+    border-right: 5px solid black;
+    border-bottom: 5px solid black;
+}
+
+.two {
+    height: 100px;
+    width: 100px;
+    border-bottom: 5px solid black;
+}
+
+.three {
+    height: 100px;
+    width: 100px;
+    border-right: 5px solid black;
+    border-bottom: 5px solid black;
+}
+
+.four {
+    height: 100px;
+    width: 100px;
+    border-right: 5px solid black;
+    border-bottom: 5px solid black;
+}
+
+.five {
+    height: 100px;
+    width: 100px;
+    border-bottom: 5px solid black;
+}
+
+.six {
+    height: 100px;
+    width: 100px;
+    border-right: 5px solid black;
+}
+
+.seven {
+    height: 100px;
+    width: 100px;
+    border-right: 5px solid black;
+}
+
+.eight {
+    height: 100px;
+    width: 100px;
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+}

@@ -125,3 +125,15 @@ h1 {
     font-family: 'Roboto', sans-serif;
     font-size: 3rem;
 }
+
+.restartBtn{
+    display: none;
+    border: none;
+    background-color: salmon;
+    width: 150px;
+    height: 50px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.2rem;
+    border-radius: 10px;
+    margin-bottom: 4rem;
+}

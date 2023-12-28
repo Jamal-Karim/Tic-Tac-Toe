@@ -1,8 +1,24 @@
 
 //same as gameboard.arr
 const squares = document.querySelectorAll(".square");
+const restartBtn = document.querySelector(".restartBtn");
+const resultOutput = document.querySelector(".result");
 
 const gameModule = (function () {
+
+    function restartGame() {
+        squares.forEach((square) => {
+            square.innerText = "";
+        })
+        const existingResultDisplay = document.querySelector(".result");
+        if (existingResultDisplay) {
+            existingResultDisplay.remove();
+        }
+        p1.turn = true;
+        p2.turn = false;
+    }
+
+    restartBtn.addEventListener("click", restartGame);
 
     //player factory
 
@@ -19,9 +35,9 @@ const gameModule = (function () {
 
     squares.forEach((square) => {
         square.addEventListener("click", function chooseSquare(event) {
-    
+
             const clickedSquare = event.target;
-    
+
             if (clickedSquare.innerText !== "") {
                 return "Invalid move try again"
             }
@@ -37,24 +53,24 @@ const gameModule = (function () {
                     p2.turn = false;
                 }
                 gameModule.checkWin();
-                if (result.result !== "Continue") {
+                if (result !== "Continue") {
                     const resultDisplay = document.createElement("h1");
-                    resultDisplay.innerText = result.result;
+                    resultDisplay.innerText = result;
                     resultDisplay.classList.add("result");
                     document.querySelector("body").append(resultDisplay);
                 }
             }
-            return clickedSquare;
+            return { clickedSquare };
         })
     })
-    
+
 
     //checks for win
 
     function checkWin() {
 
         let result = "Continue";
-    
+
         if (
             ((squares[0].innerText !== '' && squares[0].innerText === squares[3].innerText && squares[0].innerText === squares[6].innerText) ||
                 (squares[1].innerText !== '' && squares[1].innerText === squares[4].innerText && squares[1].innerText === squares[7].innerText) ||
@@ -64,7 +80,7 @@ const gameModule = (function () {
                 (squares[6].innerText !== '' && squares[6].innerText === squares[7].innerText && squares[6].innerText === squares[8].innerText)) ||
             ((squares[0].innerText !== '' && squares[0].innerText === squares[4].innerText && squares[0].innerText === squares[8].innerText) ||
                 (squares[2].innerText !== '' && squares[2].innerText === squares[4].innerText && squares[2].innerText === squares[6].innerText))
-    
+
         ) {
             const winningPlayer = p1.turn ? p2.mark : p1.mark;
             result = `${winningPlayer} Wins!`;
@@ -72,6 +88,7 @@ const gameModule = (function () {
             resultDisplay.innerText = result;
             resultDisplay.classList.add("result");
             document.querySelector("body").append(resultDisplay);
+            restartBtn.style.display = "block";
         } else {
             for (let i = 0; i < 9; i++) {
                 if (squares[i].innerText === '') {
@@ -86,6 +103,7 @@ const gameModule = (function () {
                 resultDisplay.innerText = result;
                 resultDisplay.classList.add("result");
                 document.querySelector("body").append(resultDisplay);
+                restartBtn.style.display = "block";
             }
         }
         return { result };

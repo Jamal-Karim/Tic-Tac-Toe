@@ -1,16 +1,6 @@
-//creating gameboardd 3x3
 
-const gameBoard = (function createGameBoard() {
-
-    const arr = [];
-
-    for (let i = 0; i < 3; i++) {
-        for (let j = 0; j < 3; j++) {
-            arr.push(".");
-        }
-    }
-    return { arr };
-})();
+//same as gameboard.arr
+const squares = document.querySelectorAll(".square");
 
 const gameModule = (function () {
 
@@ -27,24 +17,37 @@ const gameModule = (function () {
 
     //checks turn and takes input square
 
-    function chooseSquare(square) {
-        if (gameBoard.arr[square] !== ".") {
-            return "Invalid move try again"
-        }
-        else {
-            if (p1.turn) {
-                gameBoard.arr[square] = p1.mark;
-                p1.turn = false;
-                p2.turn = true;
+    squares.forEach((square) => {
+        square.addEventListener("click", function chooseSquare(event) {
+    
+            const clickedSquare = event.target;
+    
+            if (clickedSquare.innerText !== "") {
+                return "Invalid move try again"
             }
             else {
-                gameBoard.arr[square] = p2.mark;
-                p1.turn = true;
-                p2.turn = false;
+                if (p1.turn) {
+                    clickedSquare.innerText = p1.mark;
+                    p1.turn = false;
+                    p2.turn = true;
+                }
+                else {
+                    clickedSquare.innerText = p2.mark;
+                    p1.turn = true;
+                    p2.turn = false;
+                }
+                gameModule.checkWin();
+                if (result.result !== "Continue") {
+                    const resultDisplay = document.createElement("h1");
+                    resultDisplay.innerText = result.result;
+                    resultDisplay.classList.add("result");
+                    document.querySelector("body").append(resultDisplay);
+                }
             }
-        }
-        return gameBoard.arr;
-    }
+            return clickedSquare;
+        })
+    })
+    
 
     //checks for win
 
@@ -53,37 +56,42 @@ const gameModule = (function () {
         let result = "Continue";
     
         if (
-            ((gameBoard.arr[0] !== '.' && gameBoard.arr[0] === gameBoard.arr[3] && gameBoard.arr[0] === gameBoard.arr[6]) ||
-                (gameBoard.arr[1] !== '.' && gameBoard.arr[1] === gameBoard.arr[4] && gameBoard.arr[1] === gameBoard.arr[7]) ||
-                (gameBoard.arr[2] !== '.' && gameBoard.arr[2] === gameBoard.arr[5] && gameBoard.arr[2] === gameBoard.arr[8])) ||
-            ((gameBoard.arr[0] !== '.' && gameBoard.arr[0] === gameBoard.arr[1] && gameBoard.arr[0] === gameBoard.arr[2]) ||
-                (gameBoard.arr[3] !== '.' && gameBoard.arr[3] === gameBoard.arr[4] && gameBoard.arr[3] === gameBoard.arr[5]) ||
-                (gameBoard.arr[6] !== '.' && gameBoard.arr[6] === gameBoard.arr[7] && gameBoard.arr[6] === gameBoard.arr[8])) ||
-            ((gameBoard.arr[0] !== '.' && gameBoard.arr[0] === gameBoard.arr[4] && gameBoard.arr[0] === gameBoard.arr[8]) ||
-                (gameBoard.arr[2] !== '.' && gameBoard.arr[2] === gameBoard.arr[4] && gameBoard.arr[2] === gameBoard.arr[6]))
+            ((squares[0].innerText !== '' && squares[0].innerText === squares[3].innerText && squares[0].innerText === squares[6].innerText) ||
+                (squares[1].innerText !== '' && squares[1].innerText === squares[4].innerText && squares[1].innerText === squares[7].innerText) ||
+                (squares[2].innerText !== '' && squares[2].innerText === squares[5].innerText && squares[2].innerText === squares[8].innerText)) ||
+            ((squares[0].innerText !== '' && squares[0].innerText === squares[1].innerText && squares[0].innerText === squares[2].innerText) ||
+                (squares[3].innerText !== '' && squares[3].innerText === squares[4].innerText && squares[3].innerText === squares[5].innerText) ||
+                (squares[6].innerText !== '' && squares[6].innerText === squares[7].innerText && squares[6].innerText === squares[8].innerText)) ||
+            ((squares[0].innerText !== '' && squares[0].innerText === squares[4].innerText && squares[0].innerText === squares[8].innerText) ||
+                (squares[2].innerText !== '' && squares[2].innerText === squares[4].innerText && squares[2].innerText === squares[6].innerText))
+    
         ) {
-            result = "Win";
+            const winningPlayer = p1.turn ? p2.mark : p1.mark;
+            result = `${winningPlayer} Wins!`;
+            const resultDisplay = document.createElement("h1");
+            resultDisplay.innerText = result;
+            resultDisplay.classList.add("result");
+            document.querySelector("body").append(resultDisplay);
         } else {
             for (let i = 0; i < 9; i++) {
-                if (gameBoard.arr[i] === '.') {
+                if (squares[i].innerText === '') {
                     result = "Continue";
                     break;
                 } else {
                     result = "Draw";
                 }
             }
+            if (result == "Draw") {
+                const resultDisplay = document.createElement("h1");
+                resultDisplay.innerText = result;
+                resultDisplay.classList.add("result");
+                document.querySelector("body").append(resultDisplay);
+            }
         }
         return { result };
     }
     //returns only public functions
     return {
-        chooseSquare,
         checkWin,
     };
 })();
-
-gameModule.chooseSquare(1);
-gameModule.chooseSquare(3);
-gameModule.chooseSquare(2);
-console.log(gameModule.chooseSquare(6));
-console.log(gameModule.checkWin())
